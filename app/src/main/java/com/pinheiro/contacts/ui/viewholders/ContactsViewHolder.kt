@@ -9,5 +9,6 @@ class ContactsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val binding by lazy { ContactsViewHolderBinding.bind(view) }
     fun bind(contact: Contact) {
         binding.textViewName.text = contact.name
+        binding.textViewPhone.text = contact.phoneNumber
     }
 }

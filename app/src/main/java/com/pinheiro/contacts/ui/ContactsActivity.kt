@@ -26,7 +26,7 @@ class ContactsActivity : AppCompatActivity() {
         binding.contactsRecyclerView.adapter = adapter
 
         binding.floatingButton.setOnClickListener {
-            //TODO add action
+            startActivity(CreateContactActivity.getLaunchIntent(this))
         }
         bindListeners(adapter)
     }

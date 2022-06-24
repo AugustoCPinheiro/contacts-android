@@ -18,7 +18,12 @@ class RemoteContactsRepository(private val contactsApi: ContactsApi) : ContactsR
     }
 
     override fun getContact(id: Int): Flow<Contact> {
-        TODO("Not yet implemented")
+        return flow {
+            val result = contactsApi.getContact(id)
+            if (result.isSuccessful) {
+                emit(result.body()!!)
+            }
+        }
     }
 
     override fun saveContact(contact: Contact) {

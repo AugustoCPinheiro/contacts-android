@@ -1,3 +1,9 @@
 package com.pinheiro.contacts.models
 
-data class Contact(val id: Int, val name: String, val phoneNumber: String)
+import com.google.gson.annotations.SerializedName
+
+data class Contact(
+    @SerializedName("id") val id: Int,
+    @SerializedName("name") val name: String,
+    @SerializedName("phone") val phoneNumber: String
+)

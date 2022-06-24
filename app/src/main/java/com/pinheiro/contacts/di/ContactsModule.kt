@@ -10,5 +10,5 @@ import org.koin.dsl.module
 val contactsModule = module {
     single { ContactsApi.create() }
     single { RemoteContactsRepository(get()) }
-    viewModel { ContactsViewModel(get()) }
+    viewModel { ContactsViewModel(get<RemoteContactsRepository>()) }
 }
