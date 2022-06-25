@@ -25,17 +25,30 @@ class ContactsActivity : AppCompatActivity() {
 
         binding.contactsRecyclerView.adapter = adapter
 
-        binding.floatingButton.setOnClickListener {
-            startActivity(CreateContactActivity.getLaunchIntent(this))
-        }
+        setActions()
         bindListeners(adapter)
     }
 
     private fun bindListeners(adapter: ContactsAdapter) {
         lifecycleScope.launch {
-            viewModel.contacts.collect {
-                adapter.submitList(it)
+            viewModel.contactsRequestState.collect {
+                when(it){
+                    is ContactsViewModel.ContactsRequestState.Success -> {
+                        adapter.submitList(it.contacts)
+                    }
+                    is ContactsViewModel.ContactsRequestState.Loading -> {
+                        //TODO implement loading
+                    }
+                    else ->{}
+                }
+
             }
+        }
+    }
+
+    private fun setActions(){
+        binding.floatingButton.setOnClickListener {
+            startActivity(CreateContactActivity.getLaunchIntent(this))
         }
     }
 }

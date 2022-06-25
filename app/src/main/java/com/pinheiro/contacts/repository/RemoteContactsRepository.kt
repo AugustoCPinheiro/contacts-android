@@ -2,18 +2,26 @@ package com.pinheiro.contacts.repository
 
 import com.pinheiro.contacts.models.Contact
 import com.pinheiro.contacts.repository.api.ContactsApi
+import com.pinheiro.contacts.util.network.ApiResponse
+import com.pinheiro.contacts.util.network.BaseRemoteRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class RemoteContactsRepository(private val contactsApi: ContactsApi) : ContactsRepository {
+class RemoteContactsRepository(private val contactsApi: ContactsApi) : BaseRemoteRepository(),
+    ContactsRepository {
     override fun getAllContacts(): Flow<List<Contact>> {
 
         return flow {
-            val result = contactsApi.getContacts()
-            if (result.isSuccessful) {
-                emit(result.body()!!)
+            when (val result = safeApiCall { contactsApi.getContacts() }) {
+                is ApiResponse.Success -> {
+                    result.data?.let {
+                        emit(it)
+                    }
+                }
+                is ApiResponse.Error -> {
+                    emit(emptyList())
+                }
             }
-
         }
     }
 

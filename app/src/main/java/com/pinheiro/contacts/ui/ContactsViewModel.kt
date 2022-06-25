@@ -9,15 +9,23 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class ContactsViewModel(private val repository: ContactsRepository): ViewModel() {
-    private val _contacts =  MutableStateFlow<List<Contact>>(emptyList())
-    val contacts: StateFlow<List<Contact>> = _contacts
+class ContactsViewModel(private val remoteRepository: ContactsRepository) : ViewModel() {
+    private val _contactsRequestState =
+        MutableStateFlow<ContactsRequestState>(ContactsRequestState.Initial)
+    val contactsRequestState: StateFlow<ContactsRequestState> = _contactsRequestState
 
     init {
         viewModelScope.launch {
-            repository.getAllContacts().collect {
-                _contacts.value = it
+            _contactsRequestState.value = ContactsRequestState.Loading
+            remoteRepository.getAllContacts().collect {
+                _contactsRequestState.value = ContactsRequestState.Success(it)
             }
         }
+    }
+
+    sealed class ContactsRequestState {
+        class Success(val contacts: List<Contact>) : ContactsRequestState()
+        object Loading : ContactsRequestState()
+        object Initial : ContactsRequestState()
     }
 }
