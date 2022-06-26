@@ -19,8 +19,8 @@ interface ContactsApi {
     @GET("/contacts/{id}")
     suspend fun getContact(@Path("id") id: Int): Response<Contact>
 
-    @POST
-    suspend fun createContact(@Body contact: Contact)
+    @POST("/contacts")
+    suspend fun createContact(@Body contact: Contact): Response<Unit>
 
     companion object {
         fun create(): ContactsApi {

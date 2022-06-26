@@ -1,20 +1,16 @@
 package com.pinheiro.contacts.ui
 
-import com.pinheiro.contacts.models.Contact
 import com.pinheiro.contacts.repository.RemoteContactsRepository
-import io.mockk.every
+import com.pinheiro.contacts.ui.contacts.ContactsViewModel
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class ContactsViewModelTest {
 

@@ -14,12 +14,26 @@ abstract class BaseRemoteRepository {
                     return ApiResponse.Success(body)
                 }
             }
-            return error("${response.code()} ${response.message()}")
+            return error(response.code(), "${response.code()} ${response.message()}")
         } catch (e: Exception) {
-            return error(e.message ?: e.toString())
+            return error(RANDOM_RESPONSE_CODE, e.message ?: e.toString())
         }
     }
 
-    private fun <T> error(errorMessage: String): ApiResponse<T> =
-        ApiResponse.Error("Api call fail $errorMessage")
+    private fun <T> error(code: Int, errorMessage: String): ApiResponse<T> {
+        //TODO create exceptions for different scenarios
+        return when (code) {
+            in 0..1000 -> {
+                ApiResponse.Error(BackendErrorException(code, "Api call fail $errorMessage"))
+            }
+            else -> {
+                ApiResponse.Error(NoConnectionException())
+            }
+        }
+
+    }
+
+    private companion object{
+        const val RANDOM_RESPONSE_CODE = -1
+    }
 }

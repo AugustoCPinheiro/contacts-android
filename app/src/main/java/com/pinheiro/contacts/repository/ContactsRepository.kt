@@ -8,5 +8,5 @@ interface ContactsRepository {
 
     fun getContact(id: Int): Flow<Contact>
 
-    fun saveContact(contact: Contact)
+    fun saveContact(contact: Contact): Flow<Unit>
 }

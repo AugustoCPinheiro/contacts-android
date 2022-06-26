@@ -1,10 +1,11 @@
-package com.pinheiro.contacts.ui
+package com.pinheiro.contacts.ui.contacts
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.pinheiro.contacts.ui.adapters.ContactsAdapter
 import com.pinheiro.contacts.databinding.ActivityContactsBinding
+import com.pinheiro.contacts.ui.createContacts.CreateContactActivity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,13 +32,16 @@ class ContactsActivity : AppCompatActivity() {
 
     private fun bindListeners(adapter: ContactsAdapter) {
         lifecycleScope.launch {
-            viewModel.contactsRequestState.collect {
+            viewModel.contactsState.collect {
                 when(it){
-                    is ContactsViewModel.ContactsRequestState.Success -> {
+                    is ContactsState.Success -> {
                         adapter.submitList(it.contacts)
                     }
-                    is ContactsViewModel.ContactsRequestState.Loading -> {
+                    is ContactsState.Loading -> {
                         //TODO implement loading
+                    }
+                    is ContactsState.Error -> {
+                        //TODO implement error handling
                     }
                     else ->{}
                 }

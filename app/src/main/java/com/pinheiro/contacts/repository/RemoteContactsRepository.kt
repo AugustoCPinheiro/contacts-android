@@ -19,7 +19,7 @@ class RemoteContactsRepository(private val contactsApi: ContactsApi) : BaseRemot
                     }
                 }
                 is ApiResponse.Error -> {
-                    emit(emptyList())
+                    throw result.exception!!
                 }
             }
         }
@@ -34,7 +34,17 @@ class RemoteContactsRepository(private val contactsApi: ContactsApi) : BaseRemot
         }
     }
 
-    override fun saveContact(contact: Contact) {
-        TODO("Not yet implemented")
+    override fun saveContact(contact: Contact): Flow<Unit> {
+        return flow {
+            // TODO "Create better abstraction for api and repository communication"
+            when (val result = safeApiCall { contactsApi.createContact(contact) }) {
+                is ApiResponse.Success -> {
+                    emit(Unit)
+                }
+                is ApiResponse.Error -> {
+                    throw result.exception!!
+                }
+            }
+        }
     }
 }

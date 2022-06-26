@@ -16,7 +16,8 @@ class LocalContactsRepository(private val contactDAO: ContactDAO): ContactsRepos
         TODO("Not yet implemented")
     }
 
-    override fun saveContact(contact: Contact) {
+    override fun saveContact(contact: Contact): Flow<Unit> {
         contactDAO.insertAll(contact)
+        TODO( "Not yet implemented")
     }
 }
