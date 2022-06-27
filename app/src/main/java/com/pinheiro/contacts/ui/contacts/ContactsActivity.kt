@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.pinheiro.contacts.ui.adapters.ContactsAdapter
 import com.pinheiro.contacts.databinding.ActivityContactsBinding
+import com.pinheiro.contacts.ui.components.ErrorBottomSheet
 import com.pinheiro.contacts.ui.createContacts.CreateContactActivity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -33,7 +34,7 @@ class ContactsActivity : AppCompatActivity() {
     private fun bindListeners(adapter: ContactsAdapter) {
         lifecycleScope.launch {
             viewModel.contactsState.collect {
-                when(it){
+                when (it) {
                     is ContactsState.Success -> {
                         adapter.submitList(it.contacts)
                     }
@@ -43,14 +44,14 @@ class ContactsActivity : AppCompatActivity() {
                     is ContactsState.Error -> {
                         //TODO implement error handling
                     }
-                    else ->{}
+                    else -> {}
                 }
 
             }
         }
     }
 
-    private fun setActions(){
+    private fun setActions() {
         binding.floatingButton.setOnClickListener {
             startActivity(CreateContactActivity.getLaunchIntent(this))
         }

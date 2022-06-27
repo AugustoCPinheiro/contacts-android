@@ -15,7 +15,7 @@ import org.junit.Test
 class ContactsViewModelTest {
 
 
-    private val remoteRepository: RemoteContactsRepository = mockk(relaxed = true)
+    private val remoteRepositoryMock: RemoteContactsRepository = mockk(relaxed = true)
 
     private lateinit var viewModel: ContactsViewModel
 
@@ -24,7 +24,7 @@ class ContactsViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(mainThreadSurrogate)
-        viewModel = ContactsViewModel(remoteRepository)
+        viewModel = ContactsViewModel(remoteRepositoryMock)
     }
 
     @After
@@ -36,7 +36,7 @@ class ContactsViewModelTest {
     @Test
     fun whenStart_shouldCallService() {
         verify(exactly = 1) {
-            remoteRepository.getAllContacts()
+            remoteRepositoryMock.getAllContacts()
         }
     }
 }

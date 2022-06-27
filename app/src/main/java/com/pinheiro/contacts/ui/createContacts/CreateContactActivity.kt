@@ -26,16 +26,16 @@ class CreateContactActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.contactsRequestState.collect {
                 when (it) {
-                    is CreateContactViewModel.CreateContactState.Success -> {
+                    is CreateContactsState.Success -> {
                         finish()
                     }
-                    is CreateContactViewModel.CreateContactState.Error -> {
+                    is CreateContactsState.Error -> {
 
                     }
-                    is CreateContactViewModel.CreateContactState.Loading -> {
+                    is CreateContactsState.Loading -> {
 
                     }
-                    is CreateContactViewModel.CreateContactState.Init -> {
+                    is CreateContactsState.Init -> {
 
                     }
                 }

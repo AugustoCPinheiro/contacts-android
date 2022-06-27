@@ -11,24 +11,17 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class CreateContactViewModel(private val remoteRepository: ContactsRepository) : ViewModel() {
-    private val _contactRequestState = MutableStateFlow<CreateContactState>(CreateContactState.Init)
-    val contactsRequestState: StateFlow<CreateContactState> = _contactRequestState
+    private val _contactRequestState = MutableStateFlow<CreateContactsState>(CreateContactsState.Init)
+    val contactsRequestState: StateFlow<CreateContactsState> = _contactRequestState
 
     fun saveContact(contact: Contact) {
-        _contactRequestState.value = CreateContactState.Loading
+        _contactRequestState.value = CreateContactsState.Loading
         viewModelScope.launch {
             remoteRepository.saveContact(contact)
-                .catch { _contactRequestState.value = CreateContactState.Error }.collect {
-                    _contactRequestState.value = CreateContactState.Success
+                .catch { _contactRequestState.value = CreateContactsState.Error }.collect {
+                    _contactRequestState.value = CreateContactsState.Success
                 }
         }
 
-    }
-
-    sealed class CreateContactState {
-        object Init : CreateContactState()
-        object Success : CreateContactState()
-        object Loading : CreateContactState()
-        object Error : CreateContactState()
     }
 }
