@@ -8,5 +8,6 @@ This project uses the following libs:
 
 - Retrofit (Networking)
 - Mockk (Tests)
+- JUnit (Tests)
 - Room (Database)
-- Koin (Dependencie Injection)
+- Koin (Dependencies Injection)
